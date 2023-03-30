@@ -14,3 +14,9 @@ stoneButtonDown = pygame.image.load('images\stoneButton_Down.png')
 
 woodButtonUp = pygame.image.load('images\woodButton.png')
 woodButtonDown = pygame.image.load('images\woodButton_Down.png')
+
+rockImg = pygame.image.load(r'images\rock.png')
+rockRect = rockImg.get_rect(topleft = (10,210))
+
+logImg = pygame.image.load(r"images\log.png")
+logRect = logImg.get_rect(topleft = (7, 245))

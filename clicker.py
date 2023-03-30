@@ -10,16 +10,21 @@ screen = pygame.display.set_mode((400,700))
 clock = pygame.time.Clock()
 
 bars = []
+stone = 0
+wood = 0
 
-score= 0
-font = pygame.font.Font('freesansbold.ttf', 16)
-scoreText = font.render(str(score), True, (0,0,0))
-scoreRect = scoreText.get_rect(topleft = (200 - score//10, 50))
 
+
+font = pygame.font.Font(pygame.font.get_default_font(), 20)
+stoneAmt = font.render(str(stone)+ " Stone", True, (0,0,0))
+stoneAmtRect = pygame.rect.Rect(75, 220, 40, 40)
+
+woodAmt = font.render(str(wood) + " Wood", True, (0,0,0))
+woodAmtRect = pygame.rect.Rect(75, 270, 40, 40)
 #buttons are 80 wide, 30 tall
 
-stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200))
-woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10))
+stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone)
+woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood)
 
 stoneProg = 0
 stoneButton = stoneButtonUp
@@ -28,8 +33,6 @@ stoneBarIncreasing = False
 
 woodButton = woodButtonUp
 woodButtonRect = woodButton.get_rect(topleft = (30, 140))
-
-smallFont = pygame.font.Font('freesansbold.ttf', 12)
 
 inventory = False
 
@@ -52,6 +55,12 @@ while True:
                     woodButton = woodButtonDown
                 if onClick(backpackRect):
                     inventory = True
+                    stone = stoneBar.resource
+                    stoneAmt = stoneAmt = font.render(str(stone) + " Stone", True, (0,0,0))
+
+                    wood = woodBar.resource
+                    woodAmt = font.render(str(wood) + " Wood", True, (0,0,0))
+
                 if onClick(closeRect):
                     inventory = False
 
@@ -64,8 +73,10 @@ while True:
     else:
         screen.blit(inventoryImage, (0,0))
         screen.blit(closeButton, closeRect)
-        
-    
+        screen.blit(stoneAmt, stoneAmtRect)
+        screen.blit(rockImg, rockRect)
+        screen.blit(logImg, logRect)
+        screen.blit(woodAmt, woodAmtRect)
     woodButton = woodButtonUp
     stoneButton = stoneButtonUp
     pygame.display.flip()
