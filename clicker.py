@@ -3,6 +3,7 @@ from sys import exit
 from onClick import *
 from healthbar import *
 from imageImports import *
+from animation import *
 framerate = 24
 
 pygame.init()
@@ -13,6 +14,7 @@ bars = []
 stone = 0
 wood = 0
 gold = 0
+
 
 font = pygame.font.Font(pygame.font.get_default_font(), 20)
 goldAmt = font.render(str(gold)+ " Coins", True, (0,0,0))
@@ -45,6 +47,19 @@ lastMineAnimationUpdate =  current_time
 mineframe = 0
 mineAnimRect = mineAnimList[mineframe].get_rect(topleft = (260, 70))
 
+
+inventoryItemList = [closeButton, stoneAmt, rockImg, logImg, woodAmt, goldAmt, goldCoin]
+inventoryItemRectList = [closeRect, stoneAmtRect, rockRect, logRect, woodAmtRect, goldAmtRectSecondary, goldCoinRectSecondary]
+
+upgradeMenuItemList = [backpack, goldCoin, goldAmt, closeButton]
+upgradeMenuRectList = [backpackRect, goldCoinRectSecondary, goldAmtRectSecondary, closeRect]
+
+mainScreenItemList = [woodButton, stoneButton, backpack, goldAmt, goldCoin, upgradeButton]
+mainScreenRectList = [woodButtonRect, stoneButtonRect, backpackRect, goldAmtRectMain, goldCoinRectMain, upgradeRect]
+
+barUpdateList = [stoneBar, woodBar]
+
+
 while True:
     screen.fill('#9EA9FF')
     current_time = pygame.time.get_ticks()
@@ -76,38 +91,34 @@ while True:
                     upgradeMenu = False
                 elif onClick(upgradeRect):
                     upgradeMenu = True
-    if stoneBar.increasing and inventory == False and upgradeMenu == False:
-        if current_time-lastMineAnimationUpdate > 300:
-            mineframe += 1
-            lastMineAnimationUpdate = current_time
-            if mineframe > 1:
-                mineframe = 0
-        screen.blit(mineAnimList[mineframe], mineAnimRect)
+
+
+    animationCycle(screen, stoneBar, 300, lastMineAnimationUpdate, 1, mineAnimList, mineAnimRect, inventory, backpack)
+    
+    # if stoneBar.increasing and inventory == False and upgradeMenu == False:
+    #     if current_time-lastMineAnimationUpdate > 300:
+    #         mineframe += 1
+    #         lastMineAnimationUpdate = current_time
+    #         if mineframe > 1:
+    #             mineframe = 0
+    #     screen.blit(mineAnimList[mineframe], mineAnimRect)
 
     if inventory:
         screen.blit(inventoryImage, (0,0))
-        screen.blit(closeButton, closeRect)
-        screen.blit(stoneAmt, stoneAmtRect)
-        screen.blit(rockImg, rockRect)
-        screen.blit(logImg, logRect)
-        screen.blit(woodAmt, woodAmtRect)
-        screen.blit(goldAmt, goldAmtRectSecondary)
-        screen.blit(goldCoin, goldCoinRectSecondary)
+        for item in inventoryItemList:
+            for rect in inventoryItemRectList:
+                screen.blit(item, rect)
     elif upgradeMenu:
-        screen.blit(backpack, backpackRect)
-        screen.blit(goldCoin, goldCoinRectSecondary)
-        screen.blit(goldAmt, goldAmtRectSecondary)
-        screen.blit(closeButton, closeRect)
+        for item in upgradeMenuItemList:
+            for rect in upgradeMenuRectList:
+                screen.blit(item, rect)
         pygame.draw.rect(screen, (170,170,170), pygame.rect.Rect(50, 100, 300, 500))
     else:
-        screen.blit(woodButton, woodButtonRect)
-        screen.blit(stoneButton, stoneButtonRect)
-        screen.blit(backpack, backpackRect)
-        stoneBar.update()
-        woodBar.update()
-        screen.blit(goldAmt, goldAmtRectMain)
-        screen.blit(goldCoin, goldCoinRectMain)
-        screen.blit(upgradeButton, upgradeRect)
+        for item in mainScreenItemList:
+            for rect in mainScreenRectList:
+                screen.blit(item, rect)
+        for bar in barUpdateList:
+            bar.update()
         
     
     #print(current_time, lastMineAnimationUpdate)
