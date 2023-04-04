@@ -1,7 +1,7 @@
 import pygame, sys, math, random
 
 class healthBar():
-    def __init__(self, screen, pos, bgcolor, barcolor, resource) -> None:
+    def __init__(self, screen, pos, bgcolor, barcolor, resource, speed) -> None:
         self.progress = 0
         self.increasing = False
         self.maxWidth = 100
@@ -11,7 +11,7 @@ class healthBar():
         self.pos = pos
         self.screen = screen
         self.resource = resource
-
+        self.speed = speed
 
         self.image = pygame.Surface((100, 30))
         self.image.fill((50,0,0))
@@ -25,7 +25,7 @@ class healthBar():
     def cycle(self):
         if self.increasing:
             if self.progress < 1:
-                self.progress+=.01
+                self.progress+= (.01 * self.speed)
             else:
                 self.progress = 0
                 self.increasing = False

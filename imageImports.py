@@ -31,3 +31,9 @@ upgradeRect = upgradeButton.get_rect(topleft = (65, 12))
 mineAnim1 = pygame.image.load(r"images\mineFrameOne.png")
 mineAnim2 = pygame.image.load(r"images\mineFrameTwo.png")
 mineAnimList = [mineAnim1, mineAnim2]
+
+addSellButton = pygame.image.load(r"images\addSell.png")
+subtractSellButton = pygame.image.load(r"images\subtractSell.png")
+
+addSellRect = addSellButton.get_rect(topleft = (260, 210))
+subtractSellRect = subtractSellButton.get_rect(topleft = (350, 210))
