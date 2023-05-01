@@ -32,8 +32,23 @@ mineAnim1 = pygame.image.load(r"images\mineFrameOne.png")
 mineAnim2 = pygame.image.load(r"images\mineFrameTwo.png")
 mineAnimList = [mineAnim1, mineAnim2]
 
+woodAnim1 = pygame.image.load('images\woodFrameOne.png')
+woodAnim2 = pygame.image.load('images\woodFrameTwo.png')
+woodAnimList = [woodAnim1, woodAnim2]
+
 addSellButton = pygame.image.load(r"images\addSell.png")
 subtractSellButton = pygame.image.load(r"images\subtractSell.png")
 
 addSellRect = addSellButton.get_rect(topleft = (260, 210))
 subtractSellRect = subtractSellButton.get_rect(topleft = (350, 210))
+
+cavebg = pygame.image.load('images\cavebg.png')
+cavebgRect = cavebg.get_rect(topleft = (0, 70))
+
+woodbg = pygame.image.load('images\woodBg.png')
+woodbgRect = woodbg.get_rect(topleft = (0, 120))
+
+pickaxeUpgradeDown = pygame.image.load('images\pickaxeUpgradeDown.png')
+pickaxeUpgradeUp = pygame.image.load('images\pickaxeUpgradeUp.png')
+pickaxeUpgradeRect = pickaxeUpgradeUp.get_rect(topleft = (75, 120))
+pickUpButton = pickaxeUpgradeUp
