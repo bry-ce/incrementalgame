@@ -16,26 +16,32 @@ gold = 0
 
 largeFont = pygame.font.Font(pygame.font.get_default_font(), 32)
 font = pygame.font.Font(pygame.font.get_default_font(), 20)
+smallfont = pygame.font.Font(pygame.font.get_default_font(), 12)
 goldAmt = font.render(str(gold)+ " Coins", True, (0,0,0))
 goldAmtRectMain = pygame.rect.Rect(260, 15, 100, 20)
 goldAmtRectSecondary = pygame.rect.Rect(75, 60, 100, 20)
 
 current_time = pygame.time.get_ticks()
+axelvl = 1
+picklvl = 1
+pickUpgradeStonePrice = (3*picklvl)
+pickUpgradeWoodPrice = (2*picklvl)
 
 
+pickUpgradeText = font.render("Upgrade Pickaxe", True, (0,0,0))
+pickUpgradeTextRect = pygame.rect.Rect(90, 130, 100, 100)
+
+pickUpgradePriceText = smallfont.render(str(pickUpgradeStonePrice) + " Stone, " + str(pickUpgradeWoodPrice) + " wood", True, (0,0,0))
+pickUpgradePriceRect = pygame.rect.Rect(90, 155, 100, 100)
 stoneAmt = font.render(str(stone)+ " Stone", True, (0,0,0))
 stoneAmtRect = pygame.rect.Rect(75, 220, 40, 40)
-stoneSellAmt = 0
-stoneSellAmtLabel = largeFont.render(str(stoneSellAmt), True, (0,0,0))
-stoneSellAmtRect = pygame.rect.Rect(310, 210, 32, 32)
+
 woodAmt = font.render(str(wood) + " Wood", True, (0,0,0))
-woodAmtRect = pygame.rect.Rect(75, 270, 32, 32)
+woodAmtRect = pygame.rect.Rect(75, 270, 40, 40)
 #buttons are 80 wide, 30 tall
 
-
-
-stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1)
-woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood, 1.3)
+stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1, picklvl)
+woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood, 1.3, axelvl)
 
 stoneButton = stoneButtonUp
 stoneButtonRect = stoneButton.get_rect(topleft = (30, 80))
@@ -50,8 +56,6 @@ lastMineAnimationUpdate =  current_time
 mineframe = 0
 mineAnimRect = mineAnimList[mineframe].get_rect(topleft = (260, 70))
 
-inventoryItemList = [inventoryImage, closeButton, stoneAmt, rockImg, logImg, woodAmt, goldAmt, goldCoin, addSellButton, subtractSellButton, stoneSellAmtLabel]
-inventoryRectList = [(0,0), closeRect, stoneAmtRect, rockRect, logRect, woodAmtRect, goldAmtRectSecondary, goldCoinRectSecondary, addSellRect, subtractSellRect]
 while True:
     screen.fill('#9EA9FF')
     current_time = pygame.time.get_ticks()
@@ -81,15 +85,53 @@ while True:
                 elif onClick(closeRect):
                     inventory = False
                     upgradeMenu = False
-                    stoneSellAmt = 0
                 elif onClick(upgradeRect):
                     upgradeMenu = True
-                elif onClick(addSellRect):
-                    stoneSellAmt += 1
-                elif onClick(subtractSellRect):
-                    if stoneSellAmt > 0:
-                        stoneSellAmt -= 1
-                
+                elif onClick(pickaxeUpgradeRect):
+                    pickUpButton = pickaxeUpgradeDown
+                    if (stone >= int(pickUpgradeStonePrice) and wood >= pickUpgradeWoodPrice):
+                        stoneBar.resource -= int(pickUpgradeStonePrice)
+                        woodBar.resource -= int(pickUpgradeWoodPrice)
+                        picklvl += 1
+                        pickUpgradeStonePrice = (3*picklvl)
+                        pickUpgradeWoodPrice = (2*picklvl)
+                        pickUpgradePriceText = smallfont.render(str(pickUpgradeStonePrice) + " Stone, " + str(pickUpgradeWoodPrice) + " wood", True, (0,0,0))
+                        
+
+    stone = stoneBar.resource
+    wood = woodBar.resource
+
+    if inventory:
+        screen.blit(inventoryImage, (0,0))
+        screen.blit(closeButton, closeRect)
+        screen.blit(stoneAmt, stoneAmtRect)
+        screen.blit(rockImg, rockRect)
+        screen.blit(logImg, logRect)
+        screen.blit(woodAmt, woodAmtRect)
+        screen.blit(goldAmt, goldAmtRectSecondary)
+        screen.blit(goldCoin, goldCoinRectSecondary)
+    elif upgradeMenu:
+        screen.blit(backpack, backpackRect)
+        screen.blit(goldCoin, goldCoinRectSecondary)
+        screen.blit(goldAmt, goldAmtRectSecondary)
+        screen.blit(closeButton, closeRect)
+        pygame.draw.rect(screen, (170,170,170), pygame.rect.Rect(50, 100, 300, 500))
+        screen.blit(pickUpButton, pickaxeUpgradeRect)
+        screen.blit(pickUpgradeText, pickUpgradeTextRect)
+        screen.blit(pickUpgradePriceText, pickUpgradePriceRect)
+    else:
+        screen.blit(cavebg, cavebgRect)
+        screen.blit(woodbg, woodbgRect)
+        screen.blit(woodButton, woodButtonRect)
+        screen.blit(stoneButton, stoneButtonRect)
+        screen.blit(backpack, backpackRect)
+        screen.blit(goldAmt, goldAmtRectMain)
+        screen.blit(goldCoin, goldCoinRectMain)
+        screen.blit(upgradeButton, upgradeRect)
+        stoneBar.update()
+        woodBar.update()
+        
+
     if stoneBar.increasing and inventory == False and upgradeMenu == False:
         if current_time-lastMineAnimationUpdate > 300:
             mineframe += 1
@@ -97,33 +139,21 @@ while True:
             if mineframe > 1:
                 mineframe = 0
         screen.blit(mineAnimList[mineframe], mineAnimRect)
-
-    if inventory:
-        for x in len(inventoryItemList):
-            screen.blit(inventoryItemList[x], inventoryRectList[x])
-    elif upgradeMenu:
-        screen.blit(backpack, backpackRect)
-        screen.blit(goldCoin, goldCoinRectSecondary)
-        screen.blit(goldAmt, goldAmtRectSecondary)
-        screen.blit(closeButton, closeRect)
-        pygame.draw.rect(screen, (170,170,170), pygame.rect.Rect(50, 100, 300, 500))
-    else:
-        screen.blit(woodButton, woodButtonRect)
-        screen.blit(stoneButton, stoneButtonRect)
-        screen.blit(backpack, backpackRect)
-        stoneBar.update()
-        woodBar.update()
-        screen.blit(goldAmt, goldAmtRectMain)
-        screen.blit(goldCoin, goldCoinRectMain)
-        screen.blit(upgradeButton, upgradeRect)
-        
     
+    if woodBar.increasing and inventory == False and upgradeMenu == False:
+        if current_time -lastWoodAnimationUpdate > 300:
+            woodframe += 1
+            lastWoodAnimationUpdate = current_time
+            if woodframe > 1:
+                woodframe = 0
+        screen.blit(woodAnimList[woodframe], woodAnimRect)
     #print(current_time, lastMineAnimationUpdate)
 
-    
-    stoneSellAmtLabel = largeFont.render(str(stoneSellAmt), True, (0,0,0))
 
+    stoneBar.lvl = picklvl 
     woodButton = woodButtonUp
     stoneButton = stoneButtonUp
+    pickUpButton = pickaxeUpgradeUp
+    print("stone:", stone, "price: ", pickUpgradeStonePrice, " Level:  " , picklvl)
     pygame.display.flip()
     clock.tick(framerate)  

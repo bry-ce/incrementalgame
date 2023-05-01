@@ -38,3 +38,5 @@ class healthBar():
         self.bar = pygame.draw.rect(self.screen, (self.barcolor), pygame.Rect(self.pos[0],self.pos[1],self.maxWidth*self.progress,self.height))
 
         self.border = pygame.draw.rect(self.screen, (30,30,30), pygame.Rect(self.pos[0],self.pos[1],self.maxWidth,self.height), 1)
+
+    
