@@ -54,8 +54,11 @@ inventory = False
 upgradeMenu = False
 lastMineAnimationUpdate =  current_time
 mineframe = 0
-mineAnimRect = mineAnimList[mineframe].get_rect(topleft = (260, 70))
+mineAnimRect = mineAnimList[mineframe].get_rect(topleft = (300, 80))
 
+lastWoodAnimationUpdate =current_time
+woodframe = 0
+woodAnimRect = woodAnimList[woodframe].get_rect(topleft = (300, 130))
 while True:
     screen.fill('#9EA9FF')
     current_time = pygame.time.get_ticks()
