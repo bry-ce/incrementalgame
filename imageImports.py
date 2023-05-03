@@ -52,3 +52,13 @@ pickaxeUpgradeDown = pygame.image.load('images\pickaxeUpgradeDown.png')
 pickaxeUpgradeUp = pygame.image.load('images\pickaxeUpgradeUp.png')
 pickaxeUpgradeRect = pickaxeUpgradeUp.get_rect(topleft = (75, 120))
 pickUpButton = pickaxeUpgradeUp
+
+anvilImg = pygame.image.load(r'images\anvil.png')
+anvilRect = anvilImg.get_rect()
+
+
+reforgeUp = pygame.image.load(r'images\reforgeUp.png')
+reforgeDown = pygame.image.load(r'images\reforgeDown.png')
+
+reforgeButton = reforgeUp
+regforgeButtonRect = reforgeButton.get_rect(topleft = (75, 600))

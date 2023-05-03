@@ -27,6 +27,10 @@ picklvl = 1
 pickUpgradeStonePrice = (3*picklvl)
 pickUpgradeWoodPrice = (2*picklvl)
 
+reforgeFont = pygame.font.Font(pygame.font.get_default_font(), 20)
+reforgeText = reforgeFont.render("Reforge -  10 Gold", True, (0,0,0))
+reforgeTextRect = pygame.rect.Rect(87, 616, 300, 200)
+bonusText = smallfont.render("Current Reforge Bonus: ", True, (0,0,0))
 
 pickUpgradeText = font.render("Upgrade Pickaxe", True, (0,0,0))
 pickUpgradeTextRect = pygame.rect.Rect(90, 130, 100, 100)
@@ -99,7 +103,8 @@ while True:
                         pickUpgradeStonePrice = (3*picklvl)
                         pickUpgradeWoodPrice = (2*picklvl)
                         pickUpgradePriceText = smallfont.render(str(pickUpgradeStonePrice) + " Stone, " + str(pickUpgradeWoodPrice) + " wood", True, (0,0,0))
-                        
+                elif onClick(regforgeButtonRect):
+                    reforgeButton = reforgeDown
 
     stone = stoneBar.resource
     wood = woodBar.resource
@@ -119,12 +124,12 @@ while True:
         screen.blit(pickUpgradeText, pickUpgradeTextRect)
         screen.blit(pickUpgradePriceText, pickUpgradePriceRect)
     else:
-        screen.blit(cavebg, cavebgRect)
-        screen.blit(woodbg, woodbgRect)
-        screen.blit(woodButton, woodButtonRect)
-        screen.blit(stoneButton, stoneButtonRect)
+        screen.blit(cavebg, cavebgRect); screen.blit(stoneButton, stoneButtonRect)
+        screen.blit(woodbg, woodbgRect); screen.blit(woodButton, woodButtonRect)
         screen.blit(backpack, backpackRect)
         screen.blit(upgradeButton, upgradeRect)
+        screen.blit(reforgeButton, regforgeButtonRect); screen.blit(reforgeText, reforgeTextRect)
+        screen.blit(bonusText, (10, 550))
         stoneBar.update()
         woodBar.update()
         
@@ -151,6 +156,7 @@ while True:
     woodButton = woodButtonUp
     stoneButton = stoneButtonUp
     pickUpButton = pickaxeUpgradeUp
+    reforgeButton = reforgeUp
     print("stone:", stone, "price: ", pickUpgradeStonePrice, " Level:  " , picklvl)
     pygame.display.flip()
     clock.tick(framerate)  
