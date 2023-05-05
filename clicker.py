@@ -31,7 +31,7 @@ reforgeFont = pygame.font.Font(pygame.font.get_default_font(), 20)
 reforgeText = reforgeFont.render("Reforge -  10 Gold", True, (0,0,0))
 reforgeTextRect = pygame.rect.Rect(87, 616, 300, 200)
 bonusText = smallfont.render("Current Reforge Bonus: ", True, (0,0,0))
-
+reforgeMulti = 0
 pickUpgradeText = font.render("Upgrade Pickaxe", True, (0,0,0))
 pickUpgradeTextRect = pygame.rect.Rect(90, 130, 100, 100)
 
@@ -44,8 +44,8 @@ woodAmt = font.render(str(wood) + " Wood", True, (0,0,0))
 woodAmtRect = pygame.rect.Rect(75, 270, 40, 40)
 #buttons are 80 wide, 30 tall
 
-stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1, picklvl)
-woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood, 1.3, axelvl)
+stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1*reforgeMulti, picklvl)
+woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood, 1.3*reforgeMulti, axelvl)
 
 stoneButton = stoneButtonUp
 stoneButtonRect = stoneButton.get_rect(topleft = (30, 80))
@@ -128,7 +128,7 @@ while True:
         screen.blit(woodbg, woodbgRect); screen.blit(woodButton, woodButtonRect)
         screen.blit(backpack, backpackRect)
         screen.blit(upgradeButton, upgradeRect)
-        screen.blit(reforgeButton, regforgeButtonRect); screen.blit(reforgeText, reforgeTextRect)
+        #screen.blit(reforgeButton, regforgeButtonRect); screen.blit(reforgeText, reforgeTextRect)
         screen.blit(bonusText, (10, 550))
         stoneBar.update()
         woodBar.update()
