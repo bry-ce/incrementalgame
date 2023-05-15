@@ -3,6 +3,7 @@ from sys import exit
 from onClick import *
 from healthbar import *
 from imageImports import *
+import math
 framerate = 24
 
 pygame.init()
@@ -26,33 +27,36 @@ axelvl = 1
 picklvl = 1
 pickUpgradeStonePrice = (3*picklvl)
 pickUpgradeWoodPrice = (2*picklvl)
+reforgeMulti = 0
 
+sellAmt = 0
+sellAmtText = font.render(str(sellAmt), True, (0,0,0))
+sellAmtRect = pygame.rect.Rect(185, 615, 100, 100)
 reforgeFont = pygame.font.Font(pygame.font.get_default_font(), 20)
 reforgeText = reforgeFont.render("Reforge -  10 Gold", True, (0,0,0))
 reforgeTextRect = pygame.rect.Rect(87, 616, 300, 200)
-bonusText = smallfont.render("Current Reforge Bonus: ", True, (0,0,0))
-reforgeMulti = 0
+bonusText = smallfont.render("Current Reforge Bonus: +" + str(round(reforgeMulti*100, 1))+ "% speed", True, (0,0,0))
 pickUpgradeText = font.render("Upgrade Pickaxe", True, (0,0,0))
 pickUpgradeTextRect = pygame.rect.Rect(90, 130, 100, 100)
 
 pickUpgradePriceText = smallfont.render(str(pickUpgradeStonePrice) + " Stone, " + str(pickUpgradeWoodPrice) + " wood", True, (0,0,0))
 pickUpgradePriceRect = pygame.rect.Rect(90, 155, 100, 100)
 stoneAmt = font.render(str(stone)+ " Stone", True, (0,0,0))
-stoneAmtRect = pygame.rect.Rect(75, 220, 40, 40)
+stoneAmtRect = pygame.rect.Rect(75, 35, 40, 40)
 
 woodAmt = font.render(str(wood) + " Wood", True, (0,0,0))
-woodAmtRect = pygame.rect.Rect(75, 270, 40, 40)
+woodAmtRect = pygame.rect.Rect(75, 85, 40, 40)
 #buttons are 80 wide, 30 tall
 
-stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1, picklvl)
-woodBar = healthBar(screen, (140, 140), (145, 82, 4), (171, 99, 10), wood, 1.3, axelvl)
+stoneBar = healthBar(screen, (140, 80), (150,150,150), (200,200,200), stone, 1*(1+reforgeMulti), picklvl)
+woodBar = healthBar(screen, (140, 135), (145, 82, 4), (171, 99, 10), wood, 1.3*(1+reforgeMulti), axelvl)
 
 stoneButton = stoneButtonUp
 stoneButtonRect = stoneButton.get_rect(topleft = (30, 80))
 stoneBarIncreasing = False
 
 woodButton = woodButtonUp
-woodButtonRect = woodButton.get_rect(topleft = (30, 140))
+woodButtonRect = woodButton.get_rect(topleft = (30, 135))
 
 inventory = False
 upgradeMenu = False
@@ -79,6 +83,13 @@ while True:
                 if onClick(stoneButtonRect):
                     stoneBar.increasing = True
                     stoneButton = stoneButtonDown
+                elif onClick(addSellRect):
+                    sellAmt+= 1
+                elif onClick(subtractSellRect):
+                    if sellAmt > 0:
+                        sellAmt -= 1
+                elif onClick(sellButtonRect):
+                    blankButton = blankButtonDown
                 elif onClick(woodButtonRect):
                     woodBar.increasing = True
                     woodButton = woodButtonDown
@@ -105,6 +116,12 @@ while True:
                         pickUpgradePriceText = smallfont.render(str(pickUpgradeStonePrice) + " Stone, " + str(pickUpgradeWoodPrice) + " wood", True, (0,0,0))
                 elif onClick(regforgeButtonRect):
                     reforgeButton = reforgeDown
+                    if (gold >= 10):
+                        gold -= 10
+                        goldAmt = font.render(str(gold)+ " Coins", True, (0,0,0))
+
+                        reforgeMulti += .01
+                        bonusText = smallfont.render("Current Reforge Bonus: +" + str(round(reforgeMulti*100, 1))+ "% speed", True, (0,0,0))
 
     stone = stoneBar.resource
     wood = woodBar.resource
@@ -116,6 +133,10 @@ while True:
         screen.blit(rockImg, rockRect)
         screen.blit(logImg, logRect)
         screen.blit(woodAmt, woodAmtRect)
+        screen.blit(blankButton, sellButtonRect)
+        screen.blit(addSellButton, addSellRect)
+        screen.blit(subtractSellButton, subtractSellRect)
+        screen.blit(sellAmtText, sellAmtRect)
     elif upgradeMenu:
         screen.blit(backpack, backpackRect)
         screen.blit(closeButton, closeRect) 
@@ -130,8 +151,10 @@ while True:
         screen.blit(upgradeButton, upgradeRect)
         screen.blit(reforgeButton, regforgeButtonRect); screen.blit(reforgeText, reforgeTextRect)
         screen.blit(bonusText, (10, 550))
+        screen.blit(goldAmt, goldAmtRectMain)
         stoneBar.update()
         woodBar.update()
+    
         
 
     if stoneBar.increasing and inventory == False and upgradeMenu == False:
@@ -157,6 +180,10 @@ while True:
     stoneButton = stoneButtonUp
     pickUpButton = pickaxeUpgradeUp
     reforgeButton = reforgeUp
+    blankButton = blankButtonUp
+
+
+    
     print("stone:", stone, "price: ", pickUpgradeStonePrice, " Level:  " , picklvl)
     pygame.display.flip()
     clock.tick(framerate)  

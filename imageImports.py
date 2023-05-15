@@ -11,7 +11,7 @@ backpack = pygame.image.load(r"images\backpack.png")
 backpackRect = backpack.get_rect(topleft = (10,10))
 
 closeButton = pygame.image.load(r"images\close.png")
-closeRect = closeButton.get_rect(topleft = (342, 10))
+closeRect = closeButton.get_rect(topleft = (345, 15))
 
 stoneButtonUp = pygame.image.load('images\stoneButton.png')
 stoneButtonDown = pygame.image.load('images\stoneButton_Down.png')
@@ -20,10 +20,10 @@ woodButtonUp = pygame.image.load('images\woodButton.png')
 woodButtonDown = pygame.image.load('images\woodButton_Down.png')
 
 rockImg = pygame.image.load(r'images\rock.png')
-rockRect = rockImg.get_rect(topleft = (10,210))
+rockRect = rockImg.get_rect(topleft = (10,30))
 
 logImg = pygame.image.load(r"images\log.png")
-logRect = logImg.get_rect(topleft = (7, 245))
+logRect = logImg.get_rect(topleft = (7, 65))
 
 upgradeButton = pygame.image.load(r"images\upgrade.png")
 upgradeRect = upgradeButton.get_rect(topleft = (65, 12))
@@ -39,8 +39,8 @@ woodAnimList = [woodAnim1, woodAnim2]
 addSellButton = pygame.image.load(r"images\addSell.png")
 subtractSellButton = pygame.image.load(r"images\subtractSell.png")
 
-addSellRect = addSellButton.get_rect(topleft = (260, 210))
-subtractSellRect = subtractSellButton.get_rect(topleft = (350, 210))
+addSellRect = addSellButton.get_rect(topleft = (85, 610))
+subtractSellRect = subtractSellButton.get_rect(topleft = (285, 610))
 
 cavebg = pygame.image.load('images\cavebg.png')
 cavebgRect = cavebg.get_rect(topleft = (0, 70))
@@ -62,3 +62,9 @@ reforgeDown = pygame.image.load(r'images\reforgeDown.png')
 
 reforgeButton = reforgeUp
 regforgeButtonRect = reforgeButton.get_rect(topleft = (75, 600))
+
+blankButtonUp  = pygame.image.load(r'images\blankButton.png')
+blankButtonDown  = pygame.image.load(r'images\blankButtonDown.png')
+blankButton = blankButtonUp
+
+sellButtonRect = blankButton.get_rect(topleft = (75, 600))
