@@ -1,3 +1,4 @@
+
 import pygame
 pygame.init()
 
@@ -20,7 +21,7 @@ woodButtonUp = pygame.image.load('images\woodButton.png')
 woodButtonDown = pygame.image.load('images\woodButton_Down.png')
 
 rockImg = pygame.image.load(r'images\rock.png')
-rockRect = rockImg.get_rect(topleft = (10,30))
+rockRect = pygame.rect.Rect(10, 30, 130, 45)
 
 logImg = pygame.image.load(r"images\log.png")
 logRect = logImg.get_rect(topleft = (7, 65))
@@ -68,3 +69,5 @@ blankButtonDown  = pygame.image.load(r'images\blankButtonDown.png')
 blankButton = blankButtonUp
 
 sellButtonRect = blankButton.get_rect(topleft = (75, 600))
+
+selectionBox = pygame.image.load('images\selectionBox.png')
